@@ -32,7 +32,7 @@ public class UserActionController {
 	
 	Gson gson = new Gson();
 	
-	@RequestMapping(value = "user/action/loginUser", method = RequestMethod.POST,produces = {"application/json;charset=UTF-8"})
+	@RequestMapping(value = "action/user/loginUser", method = RequestMethod.POST,produces = {"application/json;charset=UTF-8"})
 	@ResponseBody
 	public String loginUser(@RequestParam(value="deviceId",required = true) String deviceId) {
 		User user = null;
@@ -67,7 +67,7 @@ public class UserActionController {
 		return  "{ \"ret\" :0,\"user\":"+gson.toJson(user)+"}";
 	}
 	
-	@RequestMapping(value = "user/action/uploadUserData", method = RequestMethod.POST,produces = {"application/json;charset=UTF-8"})
+	@RequestMapping(value = "action/user/uploadUserData", method = RequestMethod.POST,produces = {"application/json;charset=UTF-8"})
 	@ResponseBody
 	public String uploadUserData(@RequestBody String body) {
 		User user = null;
@@ -85,7 +85,7 @@ public class UserActionController {
 		return  "{ \"ret\" :0,\"sign\":\"0\",\"user\":"+gson.toJson(user)+"}";//sgin 标识是注册还是登录
 	}
 	
-	@RequestMapping(value = "user/action/transferPoint", method = RequestMethod.POST,produces = {"application/json;charset=UTF-8"})
+	@RequestMapping(value = "action/user/transferPoint", method = RequestMethod.POST,produces = {"application/json;charset=UTF-8"})
 	@ResponseBody
 	public String transferPoint(
 			@RequestParam(value="toUserId",required = true) String toUserId,
@@ -117,7 +117,7 @@ public class UserActionController {
 		return  "{ \"ret\" :0,\"userPoint\":\""+user.getMax_point()+"\"}";
 	}
 	
-	@RequestMapping(value = "user/action/updateUserGeo", method = RequestMethod.POST,produces = {"application/json;charset=UTF-8"})
+	@RequestMapping(value = "action/user/updateUserGeo", method = RequestMethod.POST,produces = {"application/json;charset=UTF-8"})
 	@ResponseBody
 	public String updateUserGeo(
 			@RequestParam(value="userId",required = true) String userId,
@@ -134,7 +134,7 @@ public class UserActionController {
 		return  "{ \"ret\" :0}";
 	}
 	
-	@RequestMapping(value = "user/action/getNearbyUsers", method = RequestMethod.POST,produces = {"application/json;charset=UTF-8"})
+	@RequestMapping(value = "action/user/getNearbyUsers", method = RequestMethod.POST,produces = {"application/json;charset=UTF-8"})
 	@ResponseBody
 	public String getNearbyUsers(
 			@RequestParam(value="userId",required = true) String userId,

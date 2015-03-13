@@ -25,7 +25,7 @@ import com.out.link.server.http.log.LoggerFactory;
 public class UploadFileController {
 	public Logger loggerInfo = LoggerFactory.getServerInfoLogger(UploadFileController.class);
 	public Logger logger = LoggerFactory.getServerErrorLogger(UploadFileController.class);
-	@RequestMapping(value = "user/action/uploadAvatar", method = RequestMethod.POST,produces = {"application/json;charset=UTF-8"})
+	@RequestMapping(value = "action/photo/uploadAvatar", method = RequestMethod.POST,produces = {"application/json;charset=UTF-8"})
 	@ResponseBody
 	public String uploadAvatarPhoto(HttpServletRequest request) throws ServletException, IOException{
 			final long imgMaxSize = 1024*1024; //1M

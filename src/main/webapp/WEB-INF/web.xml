@@ -40,12 +40,13 @@
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>springmvc</servlet-name>
-		<url-pattern>/*</url-pattern>
+		<url-pattern>/action/*</url-pattern>
 	</servlet-mapping>
 	
   	<servlet>  
     	<servlet-name>websocket</servlet-name>  
     	<servlet-class>com.out.link.server.websocket.servlet.WebSocketMessageServlet</servlet-class>  
+  		<load-on-startup>2</load-on-startup>
   	</servlet>
   	<servlet-mapping>  
     	<servlet-name>websocket</servlet-name>  

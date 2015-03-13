@@ -34,7 +34,7 @@ public class BingTranslateController {
 	
 	Gson gson = new Gson();
 	
-	@RequestMapping(value = "translate/action/translateText", method = RequestMethod.POST,produces = {"application/json;charset=UTF-8"})
+	@RequestMapping(value = "action/translate/translateText", method = RequestMethod.POST,produces = {"application/json;charset=UTF-8"})
 	@ResponseBody
 	public String translateText(
 			@RequestBody String body
@@ -63,7 +63,7 @@ public class BingTranslateController {
 		return  "{ \"ret\" : 0,\"target_text\":\""+targetText+"\"}";
 	}
 	
-	@RequestMapping(value = "translate/action/getTranslateNames", method = RequestMethod.GET,produces = {"application/json;charset=UTF-8"})
+	@RequestMapping(value = "action/translate/getTranslateNames", method = RequestMethod.GET,produces = {"application/json;charset=UTF-8"})
 	@ResponseBody
 	public String getTranslateNames(
 			) {
@@ -76,7 +76,7 @@ public class BingTranslateController {
 		}
 	}
 	
-	@RequestMapping(value = "translate/action/getTranslateNamesByLocale", method = RequestMethod.GET,produces = {"application/json;charset=UTF-8"})
+	@RequestMapping(value = "action/translate/getTranslateNamesByLocale", method = RequestMethod.GET,produces = {"application/json;charset=UTF-8"})
 	@ResponseBody
 	public String getTranslateNamesByLocale(
 			@RequestParam String locale
