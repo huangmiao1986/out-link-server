@@ -32,18 +32,12 @@
 		<param-value>/WEB-INF/classes/dataOption.xml</param-value>
 	</context-param>
 	
-	<!-- Spring mvc -->
-	<servlet>
-		<servlet-name>springmvc</servlet-name>
-		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
-		<load-on-startup>1</load-on-startup>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>springmvc</servlet-name>
-		<url-pattern>/action/*</url-pattern>
+	<servlet-mapping>  
+	    <servlet-name>default</servlet-name> 
+	    <url-pattern>*.jpeg</url-pattern>    
 	</servlet-mapping>
 	
-  	<servlet>  
+	<servlet>  
     	<servlet-name>websocket</servlet-name>  
     	<servlet-class>com.out.link.server.websocket.servlet.WebSocketMessageServlet</servlet-class>  
   		<load-on-startup>2</load-on-startup>
@@ -52,6 +46,17 @@
     	<servlet-name>websocket</servlet-name>  
     	<url-pattern>*.do</url-pattern> 
   	</servlet-mapping>
+	
+	<!-- Spring mvc -->
+	<servlet>
+		<servlet-name>springmvc</servlet-name>
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>springmvc</servlet-name>
+		<url-pattern>/*</url-pattern>
+	</servlet-mapping>
   	
   <!-- 编码过滤器 -->
 	<filter>
