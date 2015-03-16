@@ -32,11 +32,6 @@
 		<param-value>/WEB-INF/classes/dataOption.xml</param-value>
 	</context-param>
 	
-	<servlet-mapping>  
-	    <servlet-name>default</servlet-name> 
-	    <url-pattern>*.jpeg</url-pattern>    
-	</servlet-mapping>
-	
 	<servlet>  
     	<servlet-name>websocket</servlet-name>  
     	<servlet-class>com.out.link.server.websocket.servlet.WebSocketMessageServlet</servlet-class>  
@@ -44,7 +39,7 @@
   	</servlet>
   	<servlet-mapping>  
     	<servlet-name>websocket</servlet-name>  
-    	<url-pattern>*.do</url-pattern> 
+    	<url-pattern>/message</url-pattern> 
   	</servlet-mapping>
 	
 	<!-- Spring mvc -->
