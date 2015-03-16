@@ -32,16 +32,6 @@
 		<param-value>/WEB-INF/classes/dataOption.xml</param-value>
 	</context-param>
 	
-	<servlet>  
-    	<servlet-name>websocket</servlet-name>  
-    	<servlet-class>com.out.link.server.websocket.servlet.WebSocketMessageServlet</servlet-class>  
-  		<load-on-startup>2</load-on-startup>
-  	</servlet>
-  	<servlet-mapping>  
-    	<servlet-name>websocket</servlet-name>  
-    	<url-pattern>/message</url-pattern> 
-  	</servlet-mapping>
-	
 	<!-- Spring mvc -->
 	<servlet>
 		<servlet-name>springmvc</servlet-name>

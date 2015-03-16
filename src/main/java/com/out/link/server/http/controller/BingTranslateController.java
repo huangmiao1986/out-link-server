@@ -79,7 +79,7 @@ public class BingTranslateController {
 	@RequestMapping(value = "action/translate/getTranslateNamesByLocale", method = RequestMethod.GET,produces = {"application/json;charset=UTF-8"})
 	@ResponseBody
 	public String getTranslateNamesByLocale(
-			@RequestParam String locale
+			@RequestParam(value="locale",required = true) String locale
 			) {
 		try {
 			Map<String,String> map = bingTranslateService.getLangTranslateAndNameByLocale(locale);
