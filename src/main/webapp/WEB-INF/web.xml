@@ -43,6 +43,15 @@
 		<url-pattern>/*</url-pattern>
 	</servlet-mapping>
   	
+  	<servlet>  
+    	<servlet-name>websocket</servlet-name>  
+    	<servlet-class>com.out.link.server.websocket.servlet.WebSocketMessageServlet</servlet-class>  
+  	</servlet>
+  	<servlet-mapping>  
+    	<servlet-name>websocket</servlet-name>  
+    	<url-pattern>/message</url-pattern> 
+  	</servlet-mapping>
+  	
   <!-- 编码过滤器 -->
 	<filter>
 		<filter-name>SetCharacterEncoding</filter-name>
