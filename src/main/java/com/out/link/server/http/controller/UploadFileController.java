@@ -17,6 +17,7 @@ import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.out.link.server.http.log.LoggerFactory;
@@ -27,12 +28,13 @@ public class UploadFileController {
 	public Logger logger = LoggerFactory.getServerErrorLogger(UploadFileController.class);
 	@RequestMapping(value = "action/photo/uploadAvatar", method = RequestMethod.POST,produces = {"application/json;charset=UTF-8"})
 	@ResponseBody
-	public String uploadAvatarPhoto(HttpServletRequest request) throws ServletException, IOException{
+	public String uploadAvatarPhoto(HttpServletRequest request,
+			@RequestParam(value="userId",required = true) String userId)  throws ServletException, IOException{
 			final long imgMaxSize = 1024*1024; //1M
 		 	final String[] allowedImg = new String[]{"jpg", "jpeg", "gif"};
 		 	try {
 		 		request.setCharacterEncoding("utf-8");  
-				uploadFile(request,allowedImg,imgMaxSize);
+				uploadFile(request,allowedImg,imgMaxSize,userId);
 			} catch(FileUploadException e){
 				logger.error("上传头像异常", e);
 				return  "{ \"ret\" : 1, \"err\" : \"upload file format is not allowed!\"}";
@@ -44,7 +46,7 @@ public class UploadFileController {
 	}
 	
 	@SuppressWarnings("unchecked")
-	private void uploadFile(HttpServletRequest request,String[] allowedType,long maxSize) throws Exception,FileUploadException {
+	private void uploadFile(HttpServletRequest request,String[] allowedType,long maxSize,String userId) throws Exception,FileUploadException {
 		 //获得磁盘文件条目工厂。  
         DiskFileItemFactory factory = new DiskFileItemFactory();  
         //获取文件上传需要保存的路径，upload文件夹需存在。  
@@ -88,7 +90,7 @@ public class UploadFileController {
                 /*写到文件中*/  
                 if(allowedFlag) {
                 	loggerInfo.info("获取文件总量的容量:"+ item.getSize());
-                	item.write(new File(path,filename));
+                	item.write(new File(path,userId));
 	            }  
 	        }  
         }
