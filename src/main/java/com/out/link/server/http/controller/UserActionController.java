@@ -141,9 +141,9 @@ public class UserActionController {
 			@RequestParam(value="lat",required = true) double lat,
 			@RequestParam(value="lon",required = true) double lon,
 			@RequestParam(value="country",required = true) String country,
-			@RequestParam(value="country",required = true) int raidus,
-			@RequestParam(value="country",required = true) int start,
-			@RequestParam(value="country",required = true) int end
+			@RequestParam(value="raidus",required = true) int raidus,
+			@RequestParam(value="start",required = true) int start,
+			@RequestParam(value="end",required = true) int end
 			) {
 		List<User> users = new ArrayList<User>();
 		try {
