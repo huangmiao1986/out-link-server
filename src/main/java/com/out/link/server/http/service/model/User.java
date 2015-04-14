@@ -19,6 +19,7 @@ public class User implements Serializable {
 	private long used_point ;//已经使用的字符数，单位个
 	private Date create_time;
 	private Date update_time;
+	private int online = 0; //0 不在线 1 在线
 	public long getId() {
 		return id;
 	}
@@ -90,6 +91,12 @@ public class User implements Serializable {
 	}
 	public void setData_status(short data_status) {
 		this.data_status = data_status;
+	}
+	public int getOnline() {
+		return online;
+	}
+	public void setOnline(int online) {
+		this.online = online;
 	}
 	
 }

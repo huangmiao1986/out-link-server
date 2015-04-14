@@ -12,6 +12,7 @@ import org.apache.log4j.Logger;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import com.out.link.server.http.cache.MessageCache;
+import com.out.link.server.http.cache.UserCache;
 import com.out.link.server.http.log.LoggerFactory;
 import com.out.link.server.http.service.BingTranslateService;
 import com.out.link.server.http.service.model.MessagePacketData;
@@ -31,6 +32,10 @@ public class WebSocketMessageInboundPool {
 		return (BingTranslateService) AppContextUtil.getBean("bingTranslateService");
 	}
     
+    private static UserCache getUserCache() {
+		return (UserCache) AppContextUtil.getBean("userCache");
+	}
+    
     private static Gson gson = new Gson();
       
     //向连接池中添加连接  
@@ -38,6 +43,11 @@ public class WebSocketMessageInboundPool {
         //添加连接  
         System.out.println("user : " + inbound.getUser() + " join..");  
         connections.put(inbound.getUser(), inbound);  
+        try {
+			getUserCache().addUserOnline(inbound.getUser());
+		} catch (Exception e) {
+			loggerError.error("user:"+inbound.getUser()+" add online exception:", e);
+		}
     }  
       
     //获取所有的在线用户  
@@ -49,6 +59,11 @@ public class WebSocketMessageInboundPool {
         //移除连接  
         System.out.println("user : " + inbound.getUser() + " exit..");  
         connections.remove(inbound.getUser());  
+        try {
+			getUserCache().removeUserOnline(inbound.getUser());
+		} catch (Exception e) {
+			loggerError.error("user:"+inbound.getUser()+" remove online exception:", e);
+		}
     }  
       
     public static void sendMessageToUser(String user,String to,String message,boolean needTranslate){

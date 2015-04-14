@@ -20,6 +20,8 @@ public class UserCacheImpl extends BaseCache implements UserCache{
 	
 	private static String OUT_LINK_USER_ID_KEY = "OUT_LINK_USER_ID_KEY:";
 	
+	private static String OUT_LINK_USER_ONLINE_KEY = "OUT_LINK_USER_ONLINE_KEY";
+	
 	private SimpleDateFormat sdf =   new SimpleDateFormat( "yyyy-MM-dd HH:mm:ss" );
 	
 	@Override
@@ -129,6 +131,29 @@ public class UserCacheImpl extends BaseCache implements UserCache{
 				userMap.put("nick_name", user.getNick_name());
 			redisServerCommon.hmset(OUT_LINK_USER_KEY+user.getId(), 0, userMap);
 		}
+	}
+
+	@Override
+	public void addUserOnline(String id) throws Exception {
+		if(valadationRedisPassword()) {
+			redisServerCommon.zadd(OUT_LINK_USER_ONLINE_KEY, System.currentTimeMillis(), id, 0);
+		}
+	}
+
+	@Override
+	public boolean getUserOnline(String id) throws Exception {
+		if(valadationRedisPassword()) {
+			return redisServerCommon.sismember(OUT_LINK_USER_ONLINE_KEY, id, 0);
+		}
+		return false;
+	}
+
+	@Override
+	public long removeUserOnline(String id) throws Exception {
+		if(valadationRedisPassword()) {
+			return redisServerCommon.zrem(OUT_LINK_USER_ONLINE_KEY, id, 0);
+		}
+		return 0;
 	}
 	
 }

@@ -14,4 +14,9 @@ public interface UserCache {
 	
 	public long subUserMaxPoint(String id,long point)throws Exception;
 	
+	public void addUserOnline(String id) throws Exception;
+	
+	public boolean getUserOnline(String id) throws Exception;
+	
+	public long removeUserOnline(String id) throws Exception;
 }

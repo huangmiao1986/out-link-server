@@ -76,6 +76,9 @@ public class UserServiceImpl implements UserService {
 		if(userIds != null && userIds.size() > 0) {
 			for(long targetUserId:userIds) {
 				User user = userCache.getUserById(targetUserId+"");
+				if(userCache.getUserOnline(targetUserId+"")) {
+					user.setOnline(1);
+				}
 				user.setPassword("");
 				if(user != null)
 					users.add(user);
