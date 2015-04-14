@@ -6,15 +6,16 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-import javax.annotation.Resource;
-
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import com.out.link.server.http.cache.MessageCache;
 import com.out.link.server.http.log.LoggerFactory;
+import com.out.link.server.http.service.BingTranslateService;
 import com.out.link.server.http.service.model.MessagePacketData;
+import com.out.link.server.http.util.AppContextUtil;
 
 public class WebSocketMessageInboundPool {
 	public static Logger loggerError = LoggerFactory.getServerErrorLogger(WebSocketMessageInboundPool.class);
@@ -22,8 +23,13 @@ public class WebSocketMessageInboundPool {
 	//保存连接的MAP容器  
     private static final Map<String,WebSocketMessageInbound > connections = new HashMap<String,WebSocketMessageInbound>(); 
     
-    @Resource
-	private static MessageCache messageCache;
+    private static MessageCache getMessageCache() {
+		return (MessageCache) AppContextUtil.getBean("messageCache");
+	}
+    
+    private static BingTranslateService getBingTranslateService() {
+		return (BingTranslateService) AppContextUtil.getBean("bingTranslateService");
+	}
     
     private static Gson gson = new Gson();
       
@@ -45,16 +51,27 @@ public class WebSocketMessageInboundPool {
         connections.remove(inbound.getUser());  
     }  
       
-    public static void sendMessageToUser(String user,String message){  
+    public static void sendMessageToUser(String user,String to,String message,boolean needTranslate){
+    	StringBuffer newMessage = new StringBuffer(message);
+    	if(needTranslate && StringUtils.isNotBlank(to)) {//翻译
+	    	try {
+				String translateText = getBingTranslateService().translateText(message, to);
+				if(StringUtils.isNotBlank(translateText)) {
+					newMessage.append("\n("+translateText+")");
+				}
+			} catch (Exception e1) {
+				loggerError.error("user:"+user+" translate text:"+message+"to:"+to, e1);
+			}
+    	}
         try {  
             //向特定的用户发送数据  
-            System.out.println("send message to user : " + user + " ,message content : " + message);  
+            System.out.println("send message to user : " + user + " ,message content : " + newMessage.toString());  
             WebSocketMessageInbound inbound = connections.get(user);  
             if(inbound != null){  
-                inbound.getWsOutbound().writeTextMessage(CharBuffer.wrap(message));  
+                inbound.getWsOutbound().writeTextMessage(CharBuffer.wrap(newMessage.toString()));  
             } else {
             	try {
-					messageCache.addMessage(gson.fromJson(message, MessagePacketData.class));
+            		getMessageCache().addMessage(gson.fromJson(newMessage.toString(), MessagePacketData.class));
 				} catch (JsonSyntaxException e) {
 					loggerError.error("添加离线消息异常", e);
 				} catch (Exception e) {

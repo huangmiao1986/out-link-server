@@ -5,8 +5,6 @@ import java.nio.ByteBuffer;
 import java.nio.CharBuffer;
 import java.util.Set;
 
-import javax.annotation.Resource;
-
 import org.apache.catalina.websocket.MessageInbound;
 import org.apache.catalina.websocket.WsOutbound;
 import org.apache.log4j.Logger;
@@ -15,14 +13,16 @@ import com.google.gson.Gson;
 import com.out.link.server.http.cache.MessageCache;
 import com.out.link.server.http.log.LoggerFactory;
 import com.out.link.server.http.service.model.MessagePacketData;
+import com.out.link.server.http.util.AppContextUtil;
 
 public class WebSocketMessageInbound  extends MessageInbound {
 	public Logger loggerError = LoggerFactory.getServerErrorLogger(WebSocketMessageInbound.class);
 	
 	Gson gson = new Gson();
 	
-	@Resource
-	private MessageCache messageCache;
+	private MessageCache getMessageCache() {
+		return (MessageCache) AppContextUtil.getBean("messageCache");
+	}
 	
 	//当前连接的用户名称  
     private final String user;  
@@ -41,13 +41,13 @@ public class WebSocketMessageInbound  extends MessageInbound {
         //向连接池添加当前的连接对象  
         WebSocketMessageInboundPool.addMessageInbound(this);  
         try {
-			Set<String> messages = messageCache.getMessageByReceiver(Long.parseLong(user));
+			Set<String> messages = getMessageCache().getMessageByReceiver(Long.parseLong(user));
 			if(messages != null && messages.size() > 0) {
 				for(String message : messages) {
-					WebSocketMessageInboundPool.sendMessageToUser(user, message);
+					WebSocketMessageInboundPool.sendMessageToUser(user, null,message,false);
 				}
 			}
-			messageCache.delMessageByUserId(Long.parseLong(user));
+			getMessageCache().delMessageByUserId(Long.parseLong(user));
 		} catch (NumberFormatException e) {
 			loggerError.error("读取离线消息异常user:"+user, e);
 		} catch (Exception e) {
@@ -69,7 +69,7 @@ public class WebSocketMessageInbound  extends MessageInbound {
 	@Override
 	protected void onTextMessage(CharBuffer body) throws IOException {
 		MessagePacketData message = gson.fromJson(body.toString(), MessagePacketData.class);
-        WebSocketMessageInboundPool.sendMessageToUser(message.getReceiver()+"", body.toString());
+        WebSocketMessageInboundPool.sendMessageToUser(message.getReceiver()+"", message.getTo(),body.toString(),true);
 	}
 
 }

@@ -8,6 +8,8 @@ public class MessagePacketData {
 	private long receiver;
 	private String text;
 	private Date sentDate;
+	/*需要翻译的目标语言*/
+	private String to;
 	public long getSender() {
 		return sender;
 	}
@@ -37,6 +39,12 @@ public class MessagePacketData {
 	}
 	public void setSenderAvatarUrl(String senderAvatarUrl) {
 		this.senderAvatarUrl = senderAvatarUrl;
+	}
+	public String getTo() {
+		return to;
+	}
+	public void setTo(String to) {
+		this.to = to;
 	}
 	
 }
