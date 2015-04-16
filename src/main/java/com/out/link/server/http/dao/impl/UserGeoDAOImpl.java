@@ -11,13 +11,11 @@ import javax.sql.DataSource;
 
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
-import org.springframework.stereotype.Repository;
 
 import com.google.gson.Gson;
 import com.out.link.server.http.dao.UserGeoDAO;
 import com.out.link.server.http.service.model.UserGeo;
 import com.out.link.server.http.util.UserGeoUtil;
-@Repository
 public class UserGeoDAOImpl implements UserGeoDAO {
 	
 	Gson gson = new Gson();

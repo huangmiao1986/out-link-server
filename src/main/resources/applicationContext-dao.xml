@@ -21,4 +21,5 @@
 	<bean id="messageCache" class="com.out.link.server.http.cache.impl.MessageCacheImpl"></bean>
 	<bean id="userCache" class="com.out.link.server.http.cache.impl.UserCacheImpl"></bean>
 	<bean id="userDeviceCache" class="com.out.link.server.http.cache.impl.UserDeviceCacheImpl"></bean>
+	<bean id="userGeoDAO" class="com.out.link.server.http.dao.impl.UserGeoDAOImpl"></bean>
 </beans>
