@@ -6,13 +6,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.springframework.stereotype.Repository;
-
 import com.google.gson.Gson;
 import com.out.link.server.http.cache.BaseCache;
 import com.out.link.server.http.cache.UserCache;
 import com.out.link.server.http.service.model.User;
-@Repository
 public class UserCacheImpl extends BaseCache implements UserCache{
 	Gson gson = new Gson();
 	

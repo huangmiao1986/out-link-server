@@ -1,11 +1,8 @@
 package com.out.link.server.http.cache.impl;
 
-import org.springframework.stereotype.Repository;
-
 import com.out.link.server.http.cache.BaseCache;
 import com.out.link.server.http.cache.UserDeviceCache;
 
-@Repository
 public class UserDeviceCacheImpl extends BaseCache implements UserDeviceCache{
 	
 	private static String OUT_LINK_DEVICE_USER_KEY = "OUT_LINK_DEVICE_USER_KEY:";

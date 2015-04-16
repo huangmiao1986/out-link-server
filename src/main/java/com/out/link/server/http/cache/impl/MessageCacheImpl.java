@@ -2,14 +2,11 @@ package com.out.link.server.http.cache.impl;
 
 import java.util.Set;
 
-import org.springframework.stereotype.Repository;
-
 import com.google.gson.Gson;
 import com.out.link.server.http.cache.BaseCache;
 import com.out.link.server.http.cache.MessageCache;
 import com.out.link.server.http.service.model.MessagePacketData;
 
-@Repository
 public class MessageCacheImpl extends BaseCache implements MessageCache {
 
 	Gson gson = new Gson();

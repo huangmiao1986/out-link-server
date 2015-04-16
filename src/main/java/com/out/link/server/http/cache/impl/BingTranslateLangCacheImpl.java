@@ -2,12 +2,9 @@ package com.out.link.server.http.cache.impl;
 
 import java.util.Map;
 
-import org.springframework.stereotype.Repository;
-
 import com.google.gson.Gson;
 import com.out.link.server.http.cache.BaseCache;
 import com.out.link.server.http.cache.BingTranslateLangCache;
-@Repository
 public class BingTranslateLangCacheImpl extends BaseCache implements BingTranslateLangCache {
 	
 	Gson gson = new Gson();
