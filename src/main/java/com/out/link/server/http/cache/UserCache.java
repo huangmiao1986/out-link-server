@@ -66,4 +66,13 @@ public interface UserCache {
 	 * @throws Exception
 	 */
 	public long removeUserOnline(String id) throws Exception;
+	
+	/**
+	 * 密码重置
+	 * 
+	 * @param id
+	 * @param password
+	 * @throws Exception
+	 */
+	public void resetPassword(String id,String password) throws Exception;
 }

@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+
 import com.google.gson.Gson;
 import com.out.link.server.http.cache.BaseCache;
 import com.out.link.server.http.cache.UserCache;
@@ -67,6 +68,7 @@ public class UserCacheImpl extends BaseCache implements UserCache{
 	}
 
 	private void convertUserToMap(User user,Map<String,String> userMap) throws ParseException {
+		userMap.put("password", user.getPassword());
 		userMap.put("avatar_url", user.getAvatar_url());
 		userMap.put("create_time", sdf.format(user.getCreate_time()));
 		userMap.put("update_time", sdf.format(user.getUpdate_time()));
@@ -151,6 +153,13 @@ public class UserCacheImpl extends BaseCache implements UserCache{
 			return redisServerCommon.zrem(OUT_LINK_USER_ONLINE_KEY, id, 0);
 		}
 		return 0;
+	}
+
+	@Override
+	public void resetPassword(String id, String password) throws Exception {
+		if(valadationRedisPassword()) {
+			redisServerCommon.hset(OUT_LINK_USER_KEY+id, "password", password, 0);
+		}
 	}
 	
 }

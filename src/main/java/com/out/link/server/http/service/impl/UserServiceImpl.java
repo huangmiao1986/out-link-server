@@ -103,4 +103,9 @@ public class UserServiceImpl implements UserService {
 		}
 	}
 
+	@Override
+	public void resetPassword(String userId, String password) throws Exception {
+		userCache.resetPassword(userId, password);
+	}
+
 }

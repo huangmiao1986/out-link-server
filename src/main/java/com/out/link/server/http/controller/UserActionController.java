@@ -155,6 +155,27 @@ public class UserActionController {
 		return  "{ \"ret\" :0,\"users\":"+gson.toJson(users)+"\"count\":"+users.size()+"}";
 	}
 	
+	@RequestMapping(value = "action/user/resetPassword", method = RequestMethod.POST,produces = {"application/json;charset=UTF-8"})
+	@ResponseBody
+	public String getNearbyUsers(
+			@RequestParam(value="userId",required = true) String userId,
+			@RequestParam(value="oldPassword",required = true) String oldPassword,
+			@RequestParam(value="newPassword",required = true) String newPassword
+			) {
+		try {
+			boolean result = userService.valadationPassword(userId, oldPassword);
+			if(result) {
+				userService.resetPassword(userId, newPassword);
+			} else {
+				return "{ \"ret\" : 1, \"err\" : \"Old password input errors!\"}";
+			}
+		} catch (Exception e) {
+			logger.error("getNearbyUsers exception", e);
+			 return "{ \"ret\" : 1, \"err\" : \"" + e.getMessage() + "\"}";
+		}
+		return  "{ \"ret\" :0}";
+	}
+	
 	@ExceptionHandler(Exception.class)
 	@ResponseBody
 	 public String handleIOException(Exception ex) {

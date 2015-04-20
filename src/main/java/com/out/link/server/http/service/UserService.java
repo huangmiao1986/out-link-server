@@ -44,4 +44,6 @@ public interface UserService {
 	public long subUserMaxPoint(String id,long point)throws Exception;
 	
 	public boolean valadationPassword(String userId,String password) throws Exception;
+	
+	public void resetPassword(String userId,String password) throws Exception;
 }
