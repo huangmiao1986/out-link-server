@@ -11,7 +11,9 @@ import com.google.gson.Gson;
 
 public class HttpClientTest {
 	public static void main(String[] args) {
-		test();
+		long time = 1588/60;
+		System.out.println(time);
+//		test();
 	}
 	@SuppressWarnings("deprecation")
 	public static void test() {

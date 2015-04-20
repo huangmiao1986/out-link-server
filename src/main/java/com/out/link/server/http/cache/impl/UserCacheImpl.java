@@ -161,5 +161,4 @@ public class UserCacheImpl extends BaseCache implements UserCache{
 			redisServerCommon.hset(OUT_LINK_USER_KEY+id, "password", password, 0);
 		}
 	}
-	
 }

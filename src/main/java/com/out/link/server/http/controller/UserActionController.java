@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.google.gson.Gson;
 import com.out.link.server.http.log.LoggerFactory;
+import com.out.link.server.http.redis.RedisOperator;
 import com.out.link.server.http.service.UserService;
 import com.out.link.server.http.service.model.User;
 
@@ -27,8 +28,14 @@ public class UserActionController {
 	public Logger loggerInfo = LoggerFactory.getServerInfoLogger(UserActionController.class);
 	public Logger logger = LoggerFactory.getServerErrorLogger(UserActionController.class);
 	
+	private static String OUT_LINK_PASSWORD_WRONG_THREE_TIMES = "OUT_LINK_PASSWORD_WRONG_KEY:";
+	
 	@Resource
 	private UserService userService;
+	
+	
+	@Resource
+	public RedisOperator redisServerCommon;
 	
 	Gson gson = new Gson();
 	
@@ -92,28 +99,35 @@ public class UserActionController {
 			@RequestParam(value="fromUserId",required = true) String fromUserId,
 			@RequestParam(value="password",required = true) String password
 			) {
-			User user = null;
-			try {
-				if(!toUserId.equals(fromUserId)) {
-					boolean flag = userService.valadationPassword(fromUserId, password);
-					if(flag) {
-						user = userService.getUserById(fromUserId);
-						if(user != null) {
-							if(userService.subUserMaxPoint(fromUserId, user.getMax_point()) == 0)
-								userService.addUserMaxPoint(fromUserId, user.getMax_point());
-						} else {
-							return "{ \"ret\" : 1, \"err\" : \"user is not exsits \"}";
-						}
+		User user = null;
+		try {
+			if(!toUserId.equals(fromUserId)) {
+				String times = redisServerCommon.get(OUT_LINK_PASSWORD_WRONG_THREE_TIMES+fromUserId, 0);
+				if(StringUtils.isNotBlank(times) && Integer.parseInt(times) == 3) {
+					Long time = redisServerCommon.ttl(OUT_LINK_PASSWORD_WRONG_THREE_TIMES, 0)/60;
+					return "{ \"ret\" : 1, \"err\" : \"Wrong password more than 3 times, please try again after" +time+ "minutes\"}";
+				}
+				boolean flag = userService.valadationPassword(fromUserId, password);
+				if(flag) {
+					user = userService.getUserById(fromUserId);
+					if(user != null) {
+						if(userService.subUserMaxPoint(fromUserId, user.getMax_point()) == 0)
+							userService.addUserMaxPoint(fromUserId, user.getMax_point());
 					} else {
-						return "{ \"ret\" : 1, \"err\" : \"userId or password wrong \"}";
+						return "{ \"ret\" : 1, \"err\" : \"user is not exsits \"}";
 					}
 				} else {
-					return "{ \"ret\" : 1, \"err\" : \"The same user \"}";
+					redisServerCommon.expire(OUT_LINK_PASSWORD_WRONG_THREE_TIMES+fromUserId, 1800, 0);
+					redisServerCommon.incr(OUT_LINK_PASSWORD_WRONG_THREE_TIMES+fromUserId, 0);
+					return "{ \"ret\" : 1, \"err\" : \"userId or password wrong \"}";
 				}
-			} catch (Exception e) {
-				 logger.error("transferPoint exception", e);
-				 return "{ \"ret\" : 1, \"err\" : \"" + e.getMessage() + "\"}";
+			} else {
+				return "{ \"ret\" : 1, \"err\" : \"The same user \"}";
 			}
+		} catch (Exception e) {
+			 logger.error("transferPoint exception", e);
+			 return "{ \"ret\" : 1, \"err\" : \"" + e.getMessage() + "\"}";
+		}
 		return  "{ \"ret\" :0,\"userPoint\":\""+user.getMax_point()+"\"}";
 	}
 	
@@ -163,15 +177,22 @@ public class UserActionController {
 			@RequestParam(value="newPassword",required = true) String newPassword
 			) {
 		try {
+			String times = redisServerCommon.get(OUT_LINK_PASSWORD_WRONG_THREE_TIMES+userId, 0);
+			if(StringUtils.isNotBlank(times) && Integer.parseInt(times) == 3) {
+				Long time = redisServerCommon.ttl(OUT_LINK_PASSWORD_WRONG_THREE_TIMES, 0)/60;
+				return "{ \"ret\" : 1, \"err\" : \"Wrong password more than 3 times, please try again after" +time+ "minutes\"}";
+			}
 			boolean result = userService.valadationPassword(userId, oldPassword);
 			if(result) {
 				userService.resetPassword(userId, newPassword);
 			} else {
+				redisServerCommon.expire(OUT_LINK_PASSWORD_WRONG_THREE_TIMES+userId, 1800, 0);
+				redisServerCommon.incr(OUT_LINK_PASSWORD_WRONG_THREE_TIMES+userId, 0);
 				return "{ \"ret\" : 1, \"err\" : \"Old password input errors!\"}";
 			}
 		} catch (Exception e) {
 			logger.error("getNearbyUsers exception", e);
-			 return "{ \"ret\" : 1, \"err\" : \"" + e.getMessage() + "\"}";
+			return "{ \"ret\" : 1, \"err\" : \"" + e.getMessage() + "\"}";
 		}
 		return  "{ \"ret\" :0}";
 	}
