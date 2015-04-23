@@ -24,13 +24,13 @@ public class TranslateServiceImplTest {
 	public void test() throws Exception{
 		Gson gson = new Gson();
 //		String result = bingTranslateService.translateText("my    name    is  li",  "zh-chs");
-		List<String> languageCodes = bingTranslateService.getLanguagesForTranslate();
+//		List<String> languageCodes = bingTranslateService.getLanguagesForTranslate();
 //		languageCodes.add("en");
 //		languageCodes.add("zh");
 //		languageCodes.add("de");
-		System.out.println(bingTranslateService.getLanguageNames("en", languageCodes));
+//		System.out.println(bingTranslateService.getLanguageNames("en", languageCodes));
 //		System.out.println(bingTranslateService.getLangTranslateAndName());
 //		System.out.println(result);
-//		System.out.println(gson.toJson(bingTranslateService.getLangTranslateAndNameByLocale("zh-chs"), new TypeToken<Map<String,String>>(){}.getType()));
+		System.out.println(gson.toJson(bingTranslateService.getLangTranslateAndNameByLocale("zh-chs"), new TypeToken<Map<String,String>>(){}.getType()));
 	}
 }

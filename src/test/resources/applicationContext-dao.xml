@@ -15,14 +15,11 @@
     http://www.springframework.org/schema/context/spring-context-3.0.xsd  
     http://www.springframework.org/schema/mvc  
     http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd ">
-
-	 <bean class="com.out.link.server.http.util.AppContextUtil" />
-
-	<!-- 自动扫描的包名 -->
-	<context:component-scan base-package="com.out.link.server" />
-	<!-- 默认的注解映射的支持 -->
-	<mvc:annotation-driven />
 	
-	<aop:aspectj-autoproxy />
-
+	<bean id="bingTranslateLangCache" class="com.out.link.server.http.cache.impl.BingTranslateLangCacheImpl"></bean>
+	<bean id="bingTranslateTokenCache" class="com.out.link.server.http.cache.impl.BingTranslateTokenCacheImpl"></bean>
+	<bean id="messageCache" class="com.out.link.server.http.cache.impl.MessageCacheImpl"></bean>
+	<bean id="userCache" class="com.out.link.server.http.cache.impl.UserCacheImpl"></bean>
+	<bean id="userDeviceCache" class="com.out.link.server.http.cache.impl.UserDeviceCacheImpl"></bean>
+	<bean id="userGeoDAO" class="com.out.link.server.http.dao.impl.UserGeoDAOImpl"></bean>
 </beans>
