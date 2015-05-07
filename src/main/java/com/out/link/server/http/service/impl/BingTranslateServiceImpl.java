@@ -146,8 +146,10 @@ public class BingTranslateServiceImpl implements BingTranslateService {
 		return names;
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
-	public String getLanguagesForSpeak() throws Exception{
+	public List<String> getLanguagesForSpeak() throws Exception{
+		List<String> speakLangs = new ArrayList<String>();
 		TranslateToken authToken = bingTranslateTokenService.getAccessToken();
 		GetMethod getMethod = null;
 		if(authToken != null) {
@@ -161,7 +163,11 @@ public class BingTranslateServiceImpl implements BingTranslateService {
 	        } else { 
 	        	String result = new String(getMethod.getResponseBody(),"UTF-8");
 	        	if(StringUtils.isNotBlank(result)) {
-	        		System.out.println(result);
+	            	Document doc = DocumentHelper.parseText(result.trim());
+            		Element root = doc.getRootElement();
+            		for(Iterator<Element> it = root.elementIterator("string");it.hasNext();) {
+            			speakLangs.add(it.next().getText());
+            		}
 	        	}
 	        }
 	    }catch(Exception e){
@@ -172,7 +178,7 @@ public class BingTranslateServiceImpl implements BingTranslateService {
 		} else {
 			System.out.println("获取bing，Token失败！");
 		}
-		return "";
+		return speakLangs;
 	}
 	
 	private String createRequestXml(List<String> languageCodes) throws Exception{
@@ -228,5 +234,21 @@ public class BingTranslateServiceImpl implements BingTranslateService {
 			bingTranslateLangCache.addTransLangByLocale(locale, map);
 		}
 		return map;
+	}
+
+	@Override
+	public boolean checkSpeakLang(String lang) throws Exception {
+		Map<String,String> map = bingTranslateLangCache.getSpeakLang();
+		if(map == null || map.isEmpty()) {
+			List<String> speakLangKeys = getLanguagesForSpeak();//code
+			if(speakLangKeys != null && speakLangKeys.size() > 0) {
+				Map<String,String> speakLangMap = new HashMap<String,String>();
+				for(String key : speakLangKeys) {
+					speakLangMap.put(key, "1");
+				}
+				bingTranslateLangCache.addSpeakLang(speakLangMap);
+			}
+		}
+		return bingTranslateLangCache.checkSpeakLang(lang);
 	}
 }

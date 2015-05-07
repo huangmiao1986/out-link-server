@@ -964,5 +964,26 @@ public class RedisOperatorImpl implements RedisOperator{
 		return null;
 	}
 
+	@Override
+	public Boolean hexists(String key, String field, int db) {
+		Jedis jedis = jedisBuilder.buildJedis(db);
+		boolean flag = true;
+		try{
+			return jedis.hexists(key, field);
+		}catch(RuntimeException e){
+			flag = false;
+			logger.error("redis call hexists exception: "+e.toString());
+			jedisBuilder.returnBrokenResource(jedis);
+		}catch(Exception e){
+			flag = false;
+			logger.error("redis call hexists exception: "+e.toString());
+			jedisBuilder.returnBrokenResource(jedis);
+		}finally{
+			if(flag)
+				jedisBuilder.returnResource(jedis);
+		}
+		return null;
+	}
+
 
 }

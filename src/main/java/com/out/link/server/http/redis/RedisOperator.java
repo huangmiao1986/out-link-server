@@ -150,4 +150,6 @@ public interface RedisOperator {
 	public Long ttl(String key,int db);
 	
 	public String auth(String password,int db);
+	
+	public Boolean hexists(String key,String field,int db);
 }

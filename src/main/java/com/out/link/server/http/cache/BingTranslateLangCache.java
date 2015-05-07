@@ -33,4 +33,25 @@ public interface BingTranslateLangCache {
 	 * @throws Exception
 	 */
 	public void addTransLang(Map<String,String> transLangMap) throws Exception;
+	/**
+	 * 增加语音语言
+	 * 
+	 * @param speakLangMap
+	 * @throws Exception
+	 */
+	public void addSpeakLang(Map<String,String> speakLangMap) throws Exception; 
+	/**
+	 * 检查语言在语音map中是否存在，以便决定能否语音读取
+	 * 
+	 * @param lang
+	 * @throws Exception
+	 */
+	public boolean checkSpeakLang(String lang) throws Exception;
+	/**
+	 * 获取语音语言
+	 * 
+	 * @return
+	 * @throws Exception
+	 */
+	public Map<String,String> getSpeakLang() throws Exception;
 }

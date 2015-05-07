@@ -90,6 +90,20 @@ public class BingTranslateController {
 		}
 	}
 	
+	@RequestMapping(value = "action/translate/checkSpeak", method = RequestMethod.GET,produces = {"application/json;charset=UTF-8"})
+	@ResponseBody
+	public String checkSpeakLang(
+			@RequestParam(value="lang",required = true) String lang
+			) {
+		try {
+			boolean exits = bingTranslateService.checkSpeakLang(lang);
+			return "{ \"ret\" : 0,\"exits\":\""+String.valueOf(exits)+"\"}";
+		} catch (Exception e) {
+			loggerError.error("getTranslateNamesByLocale exception", e);
+			return  "{ \"ret\" : 1, \"err\" : \"" + e.getMessage() + "\"}";
+		}
+	}
+	
 	@ExceptionHandler(Exception.class)
 	@ResponseBody
 	 public String handleIOException(Exception ex) {

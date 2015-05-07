@@ -46,10 +46,19 @@ public interface BingTranslateService {
 	 */
 	public List<String> getLanguageNames(String locale,List<String> languageCodes) throws Exception;
 	/**
-	 * 
+	 * 获取speak语言
 	 * 
 	 * @return
 	 * @throws Exception
 	 */
-	public String getLanguagesForSpeak() throws Exception;
+	public List<String> getLanguagesForSpeak() throws Exception;
+	
+	/**
+	 * 检查语言在语音map中是否存在，以便决定能否语音读取
+	 * 
+	 * @param lang
+	 * @return
+	 * @throws Exception
+	 */
+	public boolean checkSpeakLang(String lang) throws Exception;
 }
