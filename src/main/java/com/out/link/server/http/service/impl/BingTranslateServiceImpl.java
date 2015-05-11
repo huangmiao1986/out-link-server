@@ -89,7 +89,7 @@ public class BingTranslateServiceImpl implements BingTranslateService {
 	            	Document doc = DocumentHelper.parseText(result.trim());
             		Element root = doc.getRootElement();
             		for(Iterator<Element> it = root.elementIterator("string");it.hasNext();) {
-            			translateLangs.add(it.next().getText());
+            			translateLangs.add(it.next().getText().toLowerCase());
             		}
 	        	}
 	        }
@@ -166,7 +166,7 @@ public class BingTranslateServiceImpl implements BingTranslateService {
 	            	Document doc = DocumentHelper.parseText(result.trim());
             		Element root = doc.getRootElement();
             		for(Iterator<Element> it = root.elementIterator("string");it.hasNext();) {
-            			speakLangs.add(it.next().getText());
+            			speakLangs.add(it.next().getText().toLowerCase());
             		}
 	        	}
 	        }

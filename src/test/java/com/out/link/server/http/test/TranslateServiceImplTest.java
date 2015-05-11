@@ -31,6 +31,15 @@ public class TranslateServiceImplTest {
 //		System.out.println(bingTranslateService.getLanguageNames("en", languageCodes));
 //		System.out.println(bingTranslateService.getLangTranslateAndName());
 //		System.out.println(result);
-		System.out.println(gson.toJson(bingTranslateService.getLangTranslateAndNameByLocale("zh-CN"), new TypeToken<Map<String,String>>(){}.getType()));
+		System.out.println(gson.toJson(bingTranslateService.getLanguagesForSpeak(), new TypeToken<List<String>>(){}.getType()));
+		System.out.println(gson.toJson(bingTranslateService.getLanguagesForTranslate(), new TypeToken<List<String>>(){}.getType()));
+		
+		for(String speakLang :bingTranslateService.getLanguagesForSpeak() ) {
+			for(String tansLang:bingTranslateService.getLanguagesForTranslate()) {
+				if(speakLang.equals(tansLang)) {
+					System.out.print(speakLang+"   ");
+				}
+			}
+		}
 	}
 }

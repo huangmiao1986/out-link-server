@@ -1,6 +1,10 @@
 package com.out.link.server.http.service.model;
 
-public class TranslateToken {
+import java.io.Serializable;
+
+public class TranslateToken implements Serializable{
+	/**  */
+	private static final long serialVersionUID = 838587166423785451L;
 	private String token_type;
 	private String access_token;
 	private String expires_in;

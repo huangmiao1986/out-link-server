@@ -12,36 +12,36 @@ import com.google.gson.Gson;
 
 public class HttpClientTest {
 	public static void main(String[] args) {
-		int count = 5-1;
-		int rankNum = 3;
-		int totalCount = 10;
-		if(totalCount < count) {
-			count = totalCount;
-		}
-		int front = count / 2;
-		int follow = count - front;
-		System.out.println("front:"+front+" follow:"+follow);
-		
-		if(totalCount - rankNum < follow) {
-			front = front + (follow - (totalCount -rankNum));
-			follow = totalCount -rankNum;
-		}
-		if((rankNum -1) < front ) {
-			follow = follow + (front - (rankNum -1 ));
-			front = rankNum -1;
-		}
-		System.out.println("front:"+front+" follow:"+follow);
-		System.out.println("start:" + (rankNum - front) + "end:" + (rankNum + follow));
+//		int count = 5-1;
+//		int rankNum = 3;
+//		int totalCount = 10;
+//		if(totalCount < count) {
+//			count = totalCount;
+//		}
+//		int front = count / 2;
+//		int follow = count - front;
+//		System.out.println("front:"+front+" follow:"+follow);
+//		
+//		if(totalCount - rankNum < follow) {
+//			front = front + (follow - (totalCount -rankNum));
+//			follow = totalCount -rankNum;
+//		}
+//		if((rankNum -1) < front ) {
+//			follow = follow + (front - (rankNum -1 ));
+//			front = rankNum -1;
+//		}
+//		System.out.println("front:"+front+" follow:"+follow);
+//		System.out.println("start:" + (rankNum - front) + "end:" + (rankNum + follow));
 //		long time = 1588/60;
 //		System.out.println(time);
-//		test();
+		test();
 	}
 	@SuppressWarnings("deprecation")
 	public static void test() {
 		Gson gson = new Gson();
 //		String json = gson.toJson(token);
 		HttpClient client = new HttpClient();
-		GetMethod getMethod = new GetMethod("http://123.57.87.198:8080/out-link-server/action/translate/getTranslateNamesByLocale?locale=zh-chs");
+		GetMethod getMethod = new GetMethod("http://123.57.87.198:8080/out-link-server/action/translate/getTranslateNamesByLocale?locale=en");
 		getMethod.addRequestHeader( "Content-Type","application/json" );
 //		Map<String,String> map = new HashMap<String,String>();
 //		map.put("text", "my name is li");

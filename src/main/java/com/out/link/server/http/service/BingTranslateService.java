@@ -61,4 +61,5 @@ public interface BingTranslateService {
 	 * @throws Exception
 	 */
 	public boolean checkSpeakLang(String lang) throws Exception;
+	
 }

@@ -19,8 +19,10 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.out.link.server.http.log.LoggerFactory;
 import com.out.link.server.http.service.BingTranslateService;
+import com.out.link.server.http.service.BingTranslateTokenService;
 import com.out.link.server.http.service.UserService;
 import com.out.link.server.http.service.model.TranslateRequest;
+import com.out.link.server.http.service.model.TranslateToken;
 
 @Controller
 public class BingTranslateController {
@@ -28,6 +30,9 @@ public class BingTranslateController {
 	
 	@Resource
 	private BingTranslateService bingTranslateService;
+	
+	@Resource
+	private BingTranslateTokenService bingTranslateTokenService;
 	
 	@Resource
 	private UserService userService;
@@ -99,7 +104,21 @@ public class BingTranslateController {
 			boolean exits = bingTranslateService.checkSpeakLang(lang);
 			return "{ \"ret\" : 0,\"exits\":\""+String.valueOf(exits)+"\"}";
 		} catch (Exception e) {
-			loggerError.error("getTranslateNamesByLocale exception", e);
+			loggerError.error("checkSpeakLang exception", e);
+			return  "{ \"ret\" : 1, \"err\" : \"" + e.getMessage() + "\"}";
+		}
+	}
+	
+	
+	//https://msdn.microsoft.com/en-us/library/ff512420.aspx 获取语音
+	@RequestMapping(value = "action/translate/getAccessToken", method = RequestMethod.GET,produces = {"application/json;charset=UTF-8"})
+	@ResponseBody
+	public String getAccessToken() {
+		try {
+			TranslateToken token = bingTranslateTokenService.getAccessToken();
+			return "{ \"ret\" : 0,\"token\":\""+gson.toJson(token)+"\"}";
+		} catch (Exception e) {
+			loggerError.error("getAccessToken exception", e);
 			return  "{ \"ret\" : 1, \"err\" : \"" + e.getMessage() + "\"}";
 		}
 	}
