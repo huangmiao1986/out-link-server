@@ -171,7 +171,7 @@ public class UserActionController {
 	
 	@RequestMapping(value = "action/user/resetPassword", method = RequestMethod.POST,produces = {"application/json;charset=UTF-8"})
 	@ResponseBody
-	public String getNearbyUsers(
+	public String resetPassword(
 			@RequestParam(value="userId",required = true) String userId,
 			@RequestParam(value="oldPassword",required = true) String oldPassword,
 			@RequestParam(value="newPassword",required = true) String newPassword
